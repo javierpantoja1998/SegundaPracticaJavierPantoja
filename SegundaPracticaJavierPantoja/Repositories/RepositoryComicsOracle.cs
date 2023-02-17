@@ -5,14 +5,15 @@ using System.Data;
 namespace SegundaPracticaJavierPantoja.Repositories
 {
     #region
-   /* CREATE OR REPLACE PROCEDURE SP_INSERTAR_COMIC_ORACLE
-        (P_IDCOMIC COMICS.IDCOMIC%TYPE,
-        P_NOMBRE COMICS.NOMBRE%TYPE,
-        P_IMAGEN COMICS.IMAGEN%TYPE,
-        P_DESCRIPCION COMICS.DESCRIPCION%TYPE)
+  /*  CREATE OR REPLACE PROCEDURE SP_INSERTAR_COMIC_ORACLE
+         (P_IDCOMIC COMICS.IDCOMIC%TYPE,
+         P_NOMBRE COMICS.NOMBRE%TYPE,
+         P_IMAGEN COMICS.IMAGEN%TYPE,
+         P_DESCRIPCION COMICS.DESCRIPCION%TYPE)
          AS
          BEGIN
-            INSERT INTO COMICS VALUES(P_IDCOMIC, P_NOMBRE, P_IMAGEN, P_DESCRIPCION);
+           INSERT INTO COMICS VALUES((SELECT IDCOMIC FROM COMICS WHERE IDCOMIC= (SELECT MAX(IDCOMIC) FROM COMICS))+1, P_NOMBRE, P_IMAGEN, P_DESCRIPCION);
+           COMMIT;
          END;*/
     #endregion
     public class RepositoryComicsOracle : IRepositoryComics
@@ -52,17 +53,16 @@ namespace SegundaPracticaJavierPantoja.Repositories
             return consulta.ToList();
         }
 
-        private int GetMaximoIdComic()
+        /*private int GetMaximoIdComic()
         {
             var maximo = (from datos in this.tablaComics.AsEnumerable()
                           select datos).Max(x => x.Field<int>("IDCOMIC")) + 1;
             return maximo;
-        }
-        public void InsertComic( string nombre, string imagen, string descripcion)
+        }*/
+        public void InsertComic(int idComic, string nombre, string imagen, string descripcion)
         {
-            //Cogemos el valor maximo y se lo pasamos como su id
-            int maximo = GetMaximoIdComic();
-            OracleParameter pamId = new OracleParameter("@IDCOMIC", maximo);
+            
+            OracleParameter pamId = new OracleParameter("@IDCOMIC", idComic);
             this.com.Parameters.Add(pamId);
             OracleParameter pamNombre = new OracleParameter("@NOMBRE", nombre);
             this.com.Parameters.Add(pamNombre);

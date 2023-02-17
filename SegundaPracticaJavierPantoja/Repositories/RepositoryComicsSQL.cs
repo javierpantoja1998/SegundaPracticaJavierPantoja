@@ -5,10 +5,10 @@ using System.Data;
 namespace SegundaPracticaJavierPantoja.Repositories
 {
     #region
-    /*CREATE PROCEDURE SP_INSERTAR_COMIC
-        (@IDSERIE INT, @NOMBRE NVARCHAR(40), @IMAGEN NVARCHAR(50), @DESCRIPCION NVARCHAR(100))
+    /*ALTER PROCEDURE SP_INSERTAR_COMIC
+        (@IDCOMIC INT, @NOMBRE NVARCHAR(40), @IMAGEN NVARCHAR(50), @DESCRIPCION NVARCHAR(100))
         AS
-            INSERT INTO COMICS VALUES(@IDSERIE, @NOMBRE, @IMAGEN, @DESCRIPCION)
+            INSERT INTO COMICS VALUES((SELECT IDCOMIC FROM COMICS WHERE IDCOMIC= (SELECT MAX(IDCOMIC) FROM COMICS))+1, @NOMBRE, @IMAGEN, @DESCRIPCION)
         GO*/
     #endregion
     public class RepositoryComicsSQL : IRepositoryComics
@@ -59,19 +59,18 @@ namespace SegundaPracticaJavierPantoja.Repositories
         }
 
         //Funcion para autoimplementar los ids
-        private int GetMaximoIdComic()
+        /*private int GetMaximoIdComic()
         {
             var maximo = (from datos in this.tablaComics.AsEnumerable()
                           select datos).Max(x => x.Field<int>("IDCOMIC")) + 1;
             return maximo;
-        }
+        }*/
 
         //Funcion para sacar los comics
-        public void InsertComic( string nombre, string imagen, string descripcion)
+        public void InsertComic( int idComic, string nombre, string imagen, string descripcion)
         {
-            //Cogemos el valor maximo y se lo pasamos como su id
-            int maximo = this.GetMaximoIdComic();
-            SqlParameter pamId = new SqlParameter("@IDCOMIC", maximo);
+            
+            SqlParameter pamId = new SqlParameter("@IDCOMIC", idComic);
             this.com.Parameters.Add(pamId);
             SqlParameter pamNombre = new SqlParameter("@NOMBRE", nombre);
             this.com.Parameters.Add(pamNombre);

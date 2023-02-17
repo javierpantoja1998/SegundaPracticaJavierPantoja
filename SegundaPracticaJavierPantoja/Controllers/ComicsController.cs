@@ -22,7 +22,7 @@ namespace SegundaPracticaJavierPantoja.Controllers
             return View(comics);
         }
 
-        //Metodo p
+        
         public IActionResult Create()
         {
             return View();
@@ -31,7 +31,7 @@ namespace SegundaPracticaJavierPantoja.Controllers
         [HttpPost]
         public IActionResult Create(Comic com)
         {
-            this.repo.InsertComic( com.Nombre, com.Imagen, com.Descripcion);
+            this.repo.InsertComic( com.IdComic, com.Nombre, com.Imagen, com.Descripcion);
             return RedirectToAction("Index");
 
         }

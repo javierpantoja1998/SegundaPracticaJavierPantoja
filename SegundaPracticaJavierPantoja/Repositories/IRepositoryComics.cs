@@ -7,7 +7,7 @@ namespace SegundaPracticaJavierPantoja.Repositories
         //Metodo para sacar la lista de comics
         List<Comic> GetAllComics();
 
-        void InsertComic(string nombre, string imagen, string descripcion);
+        void InsertComic(int idSerie, string nombre, string imagen, string descripcion);
 
 
     }
