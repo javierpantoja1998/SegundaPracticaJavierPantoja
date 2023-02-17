@@ -1,0 +1,28 @@
+﻿@model List<Comic>
+
+    <a asp-controller="Comics" asp-action="Create">CREAR NUEVO COMIC</a>
+
+  <div style="text-align: center">
+        <h1>COMICS</h1>
+        <table class="table table-info table-bordered">
+            <thead>
+                <tr>
+                    <th>ID COMIC</th>
+                    <th>NOMBRE</th>
+                    <th>IMAGEN</th>
+                    <th>DESCRIPCION</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(Comic com in Model)
+                    {<tr>
+                        <td>@com.IdComic</td>
+                        <td>@com.Nombre</td>
+                        <td><img src="@com.Imagen" width="200px" height="230px" /></td>
+                        <td>@com.Descripcion</td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+ 
