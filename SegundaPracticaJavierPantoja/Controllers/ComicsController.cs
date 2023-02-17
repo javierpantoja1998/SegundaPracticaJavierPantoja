@@ -10,15 +10,19 @@ namespace SegundaPracticaJavierPantoja.Controllers
 
         public ComicsController(IRepositoryComics repo)
         {
+            //Inicializamos el repositorio
             this.repo = repo;
         }
 
         public IActionResult Index()
         {
+            //Metemos la lista de comics en el index
             List<Comic> comics = this.repo.GetAllComics();
+            //Devolvemos los comics a la vista para ser vistos
             return View(comics);
         }
 
+        //Metodo p
         public IActionResult Create()
         {
             return View();

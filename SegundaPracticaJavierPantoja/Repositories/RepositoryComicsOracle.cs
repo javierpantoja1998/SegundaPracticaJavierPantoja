@@ -60,6 +60,7 @@ namespace SegundaPracticaJavierPantoja.Repositories
         }
         public void InsertComic( string nombre, string imagen, string descripcion)
         {
+            //Cogemos el valor maximo y se lo pasamos como su id
             int maximo = GetMaximoIdComic();
             OracleParameter pamId = new OracleParameter("@IDCOMIC", maximo);
             this.com.Parameters.Add(pamId);
