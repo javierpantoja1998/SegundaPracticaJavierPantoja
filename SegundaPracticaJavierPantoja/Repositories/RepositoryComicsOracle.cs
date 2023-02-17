@@ -17,6 +17,7 @@ namespace SegundaPracticaJavierPantoja.Repositories
     #endregion
     public class RepositoryComicsOracle : IRepositoryComics
     {
+        //Iniciamos la conexion con oracle
         private OracleConnection cn;
         private OracleCommand com;
         private OracleDataAdapter adapter;
@@ -24,6 +25,7 @@ namespace SegundaPracticaJavierPantoja.Repositories
 
         public RepositoryComicsOracle()
         {
+            //Creamos la cadena de conexion
             string connectionString = @"Data Source=LOCALHOST:1521/XE; Persist Security Info=True;User Id=SYSTEM;Password=oracle";
 
             this.cn = new OracleConnection(connectionString);
@@ -50,9 +52,16 @@ namespace SegundaPracticaJavierPantoja.Repositories
             return consulta.ToList();
         }
 
-        public void InsertComic(int idComic, string nombre, string imagen, string descripcion)
+        private int GetMaximoIdComic()
         {
-            OracleParameter pamId = new OracleParameter("@IDCOMIC", idComic);
+            var maximo = (from datos in this.tablaComics.AsEnumerable()
+                          select datos).Max(x => x.Field<int>("IDCOMIC")) + 1;
+            return maximo;
+        }
+        public void InsertComic( string nombre, string imagen, string descripcion)
+        {
+            int maximo = GetMaximoIdComic();
+            OracleParameter pamId = new OracleParameter("@IDCOMIC", maximo);
             this.com.Parameters.Add(pamId);
             OracleParameter pamNombre = new OracleParameter("@NOMBRE", nombre);
             this.com.Parameters.Add(pamNombre);
@@ -67,5 +76,6 @@ namespace SegundaPracticaJavierPantoja.Repositories
             this.cn.Close();
             this.com.Parameters.Clear();
         }
+
     }
 }

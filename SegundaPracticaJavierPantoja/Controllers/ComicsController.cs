@@ -27,7 +27,7 @@ namespace SegundaPracticaJavierPantoja.Controllers
         [HttpPost]
         public IActionResult Create(Comic com)
         {
-            this.repo.InsertComic(com.IdComic, com.Nombre, com.Imagen, com.Descripcion);
+            this.repo.InsertComic( com.Nombre, com.Imagen, com.Descripcion);
             return RedirectToAction("Index");
 
         }

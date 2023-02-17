@@ -52,9 +52,16 @@ namespace SegundaPracticaJavierPantoja.Repositories
             return comics;
         }
 
-        public void InsertComic(int idComic, string nombre, string imagen, string descripcion)
+        private int GetMaximoIdComic()
         {
-            SqlParameter pamId = new SqlParameter("@IDCOMIC", idComic);
+            var maximo = (from datos in this.tablaComics.AsEnumerable()
+                          select datos).Max(x => x.Field<int>("IDCOMIC")) + 1;
+            return maximo;
+        }
+        public void InsertComic( string nombre, string imagen, string descripcion)
+        {
+            int maximo = this.GetMaximoIdComic();
+            SqlParameter pamId = new SqlParameter("@IDCOMIC", maximo);
             this.com.Parameters.Add(pamId);
             SqlParameter pamNombre = new SqlParameter("@NOMBRE", nombre);
             this.com.Parameters.Add(pamNombre);
